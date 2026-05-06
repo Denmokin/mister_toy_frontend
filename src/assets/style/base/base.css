@@ -1,0 +1,61 @@
+:root {
+
+  /* Yellows */
+  --color-yellow-light: #FFECB3;
+  --color-yellow-base:  #FFD31A;
+  --color-yellow-dark:  #C48A00;
+
+  /* Reds / Coral */
+  --color-red-light:    #FFADA0;
+  --color-red-base:     #F25C45;
+  --color-red-dark:     #A83220;
+
+  /* Blues */
+  --color-blue-light:   #A8D8F5;
+  --color-blue-base:    #2E9CDB;
+  --color-blue-dark:    #1A5C85;
+
+  /* Greens */
+  --color-green-light:  #AEEDC8;
+  --color-green-base:   #3DBD72;
+  --color-green-dark:   #1E6E3F;
+
+  /* Purples */
+  --color-purple-light: #DFC8F7;
+  --color-purple-base:  #8A50D6;
+  --color-purple-dark:  #4E2490;
+
+  /* Neutrals */
+  --color-white:        #FFFFFF;
+  --color-cream:        #FDF8EE;
+  --color-gray-light:   #E6E8F0;
+  --color-gray-mid:     #9298A8;
+  --color-near-black:   #1C2033;
+
+  /* === Semantic Layer === */
+  --color-primary:           var(--color-yellow-base);
+  --color-primary-hover:     var(--color-yellow-dark);
+
+  --color-secondary:         var(--color-red-base);
+  --color-secondary-hover:   var(--color-red-dark);
+
+  --color-accent:            var(--color-purple-base);
+  --color-accent-hover:      var(--color-purple-dark);
+
+  --color-success:           var(--color-green-base);
+  --color-info:              var(--color-blue-base);
+  --color-danger:            var(--color-red-base);
+  --color-warning:           var(--color-yellow-base);
+
+  --color-bg:                var(--color-cream);
+  --color-surface:           var(--color-white);
+  --color-surface-alt:       var(--color-gray-light);
+
+  --color-text:              var(--color-near-black);
+  --color-text-muted:        var(--color-gray-mid);
+  --color-text-on-primary:   var(--color-near-black);
+  --color-text-on-secondary: var(--color-white);
+  --color-text-on-accent:    var(--color-white);
+
+  --color-border:            var(--color-gray-light);
+}

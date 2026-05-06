@@ -1,13 +1,25 @@
+import { BrowserRouter as Router } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+
+import { AppHeader } from './comps/AppHeader.jsx'
+import { ToyIndex } from './pages/ToyIndex.jsx'
+import { ToyDetails } from './pages/ToyDetails.jsx'
+import { ToyEdit } from './pages/ToyEdit.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return <h1>Hello World</h1>
+  return (
+    <Router>
+      <AppHeader />
+      <section className="app">
+        <Routes>
+          <Route element={<ToyIndex />} path='/toy' />
+          <Route element={<ToyDetails />} path='/:toyId' />
+          <Route element={<ToyEdit />} path='/edit/:toyId' />
+        </Routes>
+      </section>
+    </Router>
+  )
 }
 
 export default App

@@ -1,0 +1,31 @@
+/* Setup */
+@import './setup/reset.css';
+
+/* Base */
+@import './base/base.css';
+
+
+/* Components */
+@import './comps/AppHeader.css';
+@import './comps/ToyFilter.css';
+@import './comps/ToyList.css';
+@import './comps/ToyPreview.css';
+
+/*Pages*/
+
+
+/* GLobal */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app>* {
+  width: 100%;
+}
+
+main {
+  flex-grow: 1;
+}
