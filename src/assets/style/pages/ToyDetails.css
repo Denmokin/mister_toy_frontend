@@ -1,0 +1,22 @@
+.toy-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    border: 1px solid;
+
+    padding: 5rem;
+}
+
+.toy-details__content {
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+}
+
+.toy-details__actions {
+    display: flex;
+    gap: 1rem;
+}

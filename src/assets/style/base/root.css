@@ -1,0 +1,26 @@
+:root {
+  /* Brand & Accents */
+  --color-primary:           #FFD31A; /* Yellow base */
+  --color-primary-hover:     #e4a000; /* Yellow dark */
+
+  --color-secondary:         #F25C45; /* Red base / Danger */
+  --color-secondary-hover:   #cc3922; /* Red dark */
+
+  --color-accent:            #8A50D6; /* Purple base */
+  --color-accent-hover:      #4E2490; /* Purple dark */
+
+  /* Status Colors */
+  --color-success:           #3DBD72; /* Green base */
+  --color-info:              #2E9CDB; /* Blue base */
+
+  /* Layout & Surfaces */
+  --color-bg:                #FDF8EE; /* Cream */
+  --color-surface:           #FFFFFF; /* White */
+  --color-surface-alt:       #E6E8F0; /* Gray light / Border */
+
+  /* Typography */
+  --color-text:              #1C2033; /* Near black */
+  --color-text-muted:        #9298A8; /* Gray mid */
+  --color-text-on-primary:   #1C2033; /* Near black */
+  --color-text-on-light:     #FFFFFF; /* White (for secondary & accent) */
+}

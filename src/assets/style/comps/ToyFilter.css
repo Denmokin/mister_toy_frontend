@@ -1,3 +1,33 @@
-.toy-filter {
-    background-color: var(--color-blue-dark);
+.toy-filter_form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+
+    padding: 1rem;
+
+    .filter-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+
+        &.checkbox-group {
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 8px;
+        }
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        padding-inline-start: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
 }

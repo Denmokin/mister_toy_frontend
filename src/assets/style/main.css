@@ -2,7 +2,8 @@
 @import './setup/reset.css';
 
 /* Base */
-@import './base/base.css';
+@import './base/root.css';
+@import './base/helpers.css';
 
 
 /* Components */
@@ -10,8 +11,11 @@
 @import './comps/ToyFilter.css';
 @import './comps/ToyList.css';
 @import './comps/ToyPreview.css';
+@import './comps/AddToyStrip.css';
 
 /*Pages*/
+@import './pages/ToyEdit.css';
+@import './pages/ToyDetails.css';
 
 
 /* GLobal */
@@ -19,6 +23,7 @@
 .app {
   display: flex;
   flex-direction: column;
+  align-content: stretch;
   min-height: 100vh;
 }
 
@@ -28,4 +33,5 @@
 
 main {
   flex-grow: 1;
+  margin-block-end: 5rem;
 }

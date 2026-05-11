@@ -36,16 +36,11 @@ function query(filterBy = {}) {
     return storageService.query(TOY_STORAGE_KEY)
         .then(toys => {
 
-            if (filterBy.txt)
-                toys = toys.filter(toy => {
-                    const regExp = new RegExp(i, filterBy.txt)
-                    return regExp.test(toy.name)
-                })
+            if (filterBy.txt) {
+                const regExp = new RegExp(filterBy.txt, 'i')
+                toys = toys.filter(toy => regExp.test(toy.name))
+            }
 
-            if (filterBy.labels.length)
-                toys = toys.filter(toy => {
-                    filterBy.labels.some(label => toy.labels.includes(label))
-                })
 
             if (filterBy.inStock) {
                 toys = toys.filter(toy => toy.inStock === filterBy.inStock)
@@ -64,10 +59,13 @@ function getById(toyId) {
 }
 
 function save(toy) {
-    if (toy._id) return storageService.put(TOY_STORAGE_KEY, toy)
-
-    return storageService.post(TOY_STORAGE_KEY, toy)
-        .then(toy => toy.createdAt = utilService.getRandomDate())
+    if (toy._id) {
+        return storageService.put(TOY_STORAGE_KEY, toy)
+    }
+    else {
+        toy.createdAt = utilService.getRandomDate()
+        return storageService.post(TOY_STORAGE_KEY, toy)
+    }
 }
 
 function remove(toyId) {
@@ -100,9 +98,9 @@ function _generateToy(idx) {
         name,
         imgUrl: `https://robohash.org/${encodeURIComponent(name)}?set=set4&size=200x200`,
         price: utilService.getRandomIntInclusive(10, 150),
-        labels: utilService.getRandom(allToyLabels, labelCount),
+        labels: utilService.getRandomFromArr(allToyLabels, labelCount),
         createdAt: utilService.getRandomDate(),
-        inStock: Math.random() > 0.2,
+        inStock: Math.random() > 0.6,
     }
 }
 

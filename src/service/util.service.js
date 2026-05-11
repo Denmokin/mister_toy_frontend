@@ -9,14 +9,12 @@ export const utilService = {
     animateCSS,
     debounce,
 
-    getRandom,
+    getRandomFromArr,
     getRandomDate,
 }
 
 function makeId(prefix) {
-    const id = _.uniqueId(prefix)
-    console.log('id: ', id)
-    return id
+    return _.uniqueId(prefix)
 }
 
 function makeLorem(size = 100) {
@@ -74,7 +72,7 @@ function debounce(func, timeout = 300) {
 
 // Toy Generation
 
-function getRandom(arr, count) {
+function getRandomFromArr(arr, count) {
     const shuffled = [...arr].sort(() => Math.random() - 0.5)
     return shuffled.slice(0, count)
 }

@@ -1,0 +1,32 @@
+.btn {
+  flex: 1;
+  font-size: 1rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.2rem;
+  background: var(--color-surface-alt);
+
+
+  &:hover {
+    background-color: var(--color-primary);
+  }
+
+  &.danger {
+    background-color: var(--color-secondary);
+    color: var(--color-text-on-light);
+
+    &:hover {
+      background-color: var(--color-secondary-hover);
+    }
+  }
+
+  &.save {
+    background-color: var(--color-accent);
+    color: var(--color-text-on-light);
+
+    &:hover {
+      background-color: var(--color-accent-hover);
+    }
+  }
+
+
+}

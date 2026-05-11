@@ -1,0 +1,27 @@
+.add-toy-strip {
+    position: fixed;
+    bottom: 0;
+    z-index: 999;
+
+    width: 100%;
+    height: 5rem;
+
+    display: flex;
+    justify-content: end;
+
+
+    padding: 1rem;
+    background: #000000;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.39) 100%);
+}
+
+.add-toy-strip__button {
+    padding: 0 1rem;
+    border-radius: 2rem;
+    background-color: var(--color-primary);
+
+    &:hover {
+        background-color: var(--color-primary-hover);
+
+    }
+}
