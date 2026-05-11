@@ -3,11 +3,13 @@ import { useParams, useNavigate } from "react-router"
 import { toyService } from "../service/toy.service.local"
 import { saveToy } from "../store/actions/toy.actions.js"
 import { useSelector, useDispatch } from "react-redux"
+import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
 
 export function ToyEdit() {
     const { toyId } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const setHasChanges = useConfirmTabClose()
 
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
 
@@ -35,9 +37,6 @@ export function ToyEdit() {
                 dispatch({ type: 'isLoading', isLoading: false })
             })
     }
-
-
-
 
     function handleSubmit(ev) {
         ev.preventDefault()
@@ -69,6 +68,7 @@ export function ToyEdit() {
         }
 
         setToyToEdit(prevEdit => ({ ...prevEdit, [field]: value }))
+        setHasChanges(true)
     }
 
     if (isLoading || !toyToEdit) {
