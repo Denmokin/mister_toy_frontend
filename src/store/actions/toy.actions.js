@@ -1,7 +1,8 @@
-import { toyService } from '../../service/toy.service.local'
 import { SET_TOYS, ADD_TOY, REMOVE_TOY, UPDATE_TOY, UNDO_TOY, SET_FILTER_BY, SET_IS_LOADING } from '../reducers/toy.reducer'
 import { store } from '../store.js'
 
+// import { toyService } from '../../service/toy.service.local.js'
+import { toyService } from '../../service/toy.service.js'
 
 export function loadToys() {
     const filterBy = store.getState().toyModule.filterBy

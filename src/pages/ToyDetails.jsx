@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { toyService } from "../service/toy.service.local.js"
+// import { toyService } from "../service/toy.service.local.js"
+import { toyService } from "../service/toy.service.js"
 
 export function ToyDetails() {
     const { toyId } = useParams()

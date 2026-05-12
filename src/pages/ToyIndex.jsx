@@ -1,14 +1,15 @@
 import { ToyFilter } from "../comps/ToyFilter.jsx"
 import { ToyList } from "../comps/ToyList.jsx"
-import { toyService } from "../service/toy.service.local.js"
 import { AddToyStrip } from "../comps/AddToyStrip.jsx"
 
 import { useNavigate } from "react-router"
-import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from "react"
+import { useSelector } from 'react-redux'
 
-import { loadToys, saveToy, removeToy, setFilterBy } from "../store/actions/toy.actions.js"
+import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.js"
 
+// import { toyService } from "../service/toy.service.local.js"
+import { toyService } from "../service/toy.service.js"
 
 export function ToyIndex() {
     const navigate = useNavigate()
@@ -20,10 +21,12 @@ export function ToyIndex() {
     useEffect(() => {
         loadToys()
             .catch(err => {
-                showErrorMsg('Cannot load cars!')
+                showErrorMsg('Cannot load toys!', err)
             })
+            
     }, [filterBy])
 
+    
 
     function onRemove(toyId) {
         removeToy(toyId)

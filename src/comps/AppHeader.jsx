@@ -1,11 +1,10 @@
-import { NavLink, Link, useNavigation } from 'react-router-dom'
-import { utilService } from '../service/util.service.js'
+import { NavLink } from 'react-router-dom'
 import { toCap } from '../service/util.service.js'
 
 import logo from '../assets/vite.svg'
 
 export function AppHeader({ loggedinUser }) {
-    
+
     const navLinks = [
         { name: 'home', link: '/' },
         { name: 'toys', link: '/toy' },

@@ -1,4 +1,3 @@
-import { utilService } from "../service/util.service.js";
 import { ToyPreview } from "./ToyPreview";
 
 export function ToyList({ toys, onEdit, onDetails, onRemove }) {

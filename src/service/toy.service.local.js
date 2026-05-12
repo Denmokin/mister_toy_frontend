@@ -3,7 +3,7 @@ import { generateToys } from './toy-generator.service.js'
 import { utilService } from './util.service.js'
 
 const TOY_STORAGE_KEY = 'toyDB'
-generateToys(TOY_STORAGE_KEY, 15)
+// generateToys(TOY_STORAGE_KEY, 15)
 
 
 export const toyService = {
