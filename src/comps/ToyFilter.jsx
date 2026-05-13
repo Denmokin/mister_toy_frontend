@@ -18,7 +18,7 @@ export function ToyFilter({ filterBy, setFilterBy }) {
                 value = +value || ''
                 break
             case 'checkbox':
-                value = target.checked
+                value = target.checked ? true : ''
                 break
             default: break
         }
@@ -26,7 +26,7 @@ export function ToyFilter({ filterBy, setFilterBy }) {
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
     }
 
-    const { txt = '', inStock = false, maxPrice = 0 } = filterByToEdit
+    const { txt = '', inStock = '', maxPrice = 0 } = filterByToEdit
 
     return (
         <section>
@@ -47,7 +47,6 @@ export function ToyFilter({ filterBy, setFilterBy }) {
                     <label htmlFor="inStock">Is in stock</label>
                     <input
                         checked={inStock === true}
-                        value={inStock}
                         onChange={handleChange}
                         type="checkbox"
                         name="inStock"

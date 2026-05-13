@@ -52,7 +52,6 @@ export function ToyEdit() {
     function handleChange({ target }) {
         const field = target.name
         let value = target.value
-        console.log('value: ', value)
 
         switch (target.type) {
             case 'number':

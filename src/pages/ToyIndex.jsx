@@ -23,10 +23,14 @@ export function ToyIndex() {
             .catch(err => {
                 showErrorMsg('Cannot load toys!', err)
             })
-            
     }, [filterBy])
 
-    
+    useEffect(() => { // Fake WatchFile
+        const intervalId = setInterval(() => {
+            loadToys().catch(err => console.error('Auto-refresh failed', err))
+        }, 4000)
+        return () => clearInterval(intervalId)
+    }, [filterBy])
 
     function onRemove(toyId) {
         removeToy(toyId)
