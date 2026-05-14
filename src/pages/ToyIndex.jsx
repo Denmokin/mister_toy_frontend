@@ -7,6 +7,8 @@ import { useEffect } from "react"
 import { useSelector } from 'react-redux'
 
 import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.js"
+import { login, logout, signup } from "../store/actions/user.actions.js"
+
 
 // import { toyService } from "../service/toy.service.local.js"
 import { toyService } from "../service/toy.service.js"

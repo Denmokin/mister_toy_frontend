@@ -1,7 +1,7 @@
 import { httpService } from "./http.service"
 
 const SESSION_STORAGE_KEY = 'loggedInUser'
-const BASE_URL = '/api/auth/'
+const AUTH_URL = 'auth/'
 
 export const authService = {
   login,
@@ -11,17 +11,25 @@ export const authService = {
 }
 
 function login({ username, password }) {
-  return httpService.post(BASE_URL + 'login', { username, password })
-    .then(_setLoggedInUser)
+  return httpService.post(AUTH_URL + 'login', { username, password })
+    .then(user => {
+      console.log('user FETCH:', user)
+      if (user) return _setLoggedInUser(user)
+      else return Promise.reject('Invalid login')
+    })
 }
 
 function signup({ username, password, fullname }) {
-  return httpService.post(BASE_URL + 'signup', { username, password, fullname })
-    .then(_setLoggedInUser)
+  return httpService.post(AUTH_URL + 'signup', { username, password, fullname })
+    .then(user => {
+      console.log('user FETCH:', user)
+      if (user) return _setLoggedInUser(user)
+      else return Promise.reject('Invalid signup')
+    })
 }
 
 function logout() {
-  return httpService.post(BASE_URL + 'logout')
+  return httpService.post(AUTH_URL + 'logout')
     .then(() => sessionStorage.removeItem(SESSION_STORAGE_KEY))
 }
 
@@ -30,6 +38,7 @@ function getLoggedInUser() {
 }
 
 function _setLoggedInUser(user) {
+  console.log('ss')
   const { id, fullname, isAdmin } = user
   const userToSave = { id, fullname, isAdmin }
 
