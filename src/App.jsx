@@ -14,7 +14,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <AppHeader/>
+        <AppHeader />
         <section className="app">
           <Routes>
             <Route element={<ToyIndex />} path='/toy' />

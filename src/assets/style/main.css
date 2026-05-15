@@ -12,6 +12,8 @@
 @import './comps/ToyList.css';
 @import './comps/ToyPreview.css';
 @import './comps/AddToyStrip.css';
+@import './comps/AuthForm.css';
+@import './comps/Modal.css';
 
 /*Pages*/
 @import './pages/ToyEdit.css';

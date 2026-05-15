@@ -7,6 +7,7 @@ import { AuthForm } from './AuthForm.jsx'
 import { login, logout, signup } from "../store/actions/user.actions.js"
 import { useConfirmTabClose } from '../hooks/useConfirmTabClose.js'
 import { useSelector } from 'react-redux'
+import { closeModal, openModal } from '../store/actions/modal.actions.js'
 
 
 import logo from '../assets/vite.svg'
@@ -17,18 +18,16 @@ export function AppHeader() {
 
     const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
 
-
-    const [isModalOpen, setIsModalOpen] = useState(false)
     const [isLoginMode, setIsLoginMode] = useState(null)
 
 
     function handleModalOpen(isLogin) {
-        setIsModalOpen(true)
+        openModal()
         setIsLoginMode(isLogin)
     }
 
     function handleModalClose() {
-        setIsModalOpen(false)
+        closeModal()
     }
 
     const navLinks = [
@@ -72,10 +71,7 @@ export function AppHeader() {
                 )}
             </div>
 
-            <Modal
-                isOpen={isModalOpen}
-                onClose={handleModalClose}>
-
+            <Modal>
                 <AuthForm
                     login={login}
                     signup={signup}
@@ -83,7 +79,7 @@ export function AppHeader() {
                     setHasChanges={setHasChanges}
                     isLoginMode={isLoginMode}
                     setIsLoginMode={setIsLoginMode}
-                    handleModalClose={handleModalClose}
+                    closeModal={closeModal}
                 />
             </Modal>
 

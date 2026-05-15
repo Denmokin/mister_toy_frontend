@@ -17,6 +17,7 @@ export function ToyIndex() {
     const navigate = useNavigate()
 
     const toys = useSelector(storeState => storeState.toyModule.toys)
+    console.log('toys: ', toys)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
 

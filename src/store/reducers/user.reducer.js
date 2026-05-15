@@ -16,13 +16,4 @@ export function userReducer(state = initiateState, action = {}) {
         default:
             return state
     }
-
-    function _backUpToy(state, action) {
-        return {
-            ...state,
-            toys: toys.map(toy => {
-                toy._id === action.toyId ? { ...toy, backupToy: toy } : toy
-            })
-        }
-    }
 }

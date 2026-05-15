@@ -1,0 +1,25 @@
+.app-modal {
+    width: 90%;
+    max-width: 400px;
+
+    border: 1px solid var(--color-surface-alt);
+    border-radius: 10px;
+    background: var(--color-surface);
+}
+
+.app-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    position: relative;
+    padding: 1.5rem;
+}
+
+.btn-close-modal {
+    z-index: 100;
+
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}

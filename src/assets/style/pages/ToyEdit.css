@@ -21,28 +21,3 @@
     border-radius: 10px;
     background: var(--color-surface);
 }
-
-.toy-edit-form .form-group {
-    display: flex;
-    gap: 0.5rem;
-    flex-direction: column;
-}
-
-.toy-edit-form label {
-    font-size: 0.9rem;
-    color: var(--color-text);
-}
-
-.toy-edit-form input[type="text"],
-.toy-edit-form input[type="number"] {
-    padding: 0.5rem;
-    border: 1px solid var(--color-surface-alt);
-    border-radius: 6px;
-    font-size: 1rem;
-}
-
-.toy-edit-form .checkbox-group {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-}

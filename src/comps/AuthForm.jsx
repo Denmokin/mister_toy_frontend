@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom" // 1. Added missing import
+import { useNavigate } from "react-router-dom"
 import { userService } from "../service/user.service"
 
 export function AuthForm({
@@ -9,7 +9,7 @@ export function AuthForm({
     signup,
     isLoginMode,
     setIsLoginMode,
-    handleModalClose }) {
+    closeModal }) {
 
     const [credentials, setCredentials] = useState(userService.getEmptyCredentials())
     const navigate = useNavigate()
@@ -22,7 +22,7 @@ export function AuthForm({
                 .then((user) => {
                     if (user) {
                         navigate('/toy')
-                        handleModalClose()
+                        closeModal()
                     }
                     else return
                 })
@@ -39,7 +39,7 @@ export function AuthForm({
                 .then((user) => {
                     if (user) {
                         navigate('/toy')
-                        handleModalClose()
+                        closeModal()
                     }
                     else return
                 })
