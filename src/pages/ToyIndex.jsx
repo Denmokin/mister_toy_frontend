@@ -46,7 +46,7 @@ export function ToyIndex() {
 
     return (
         <main>
-            <AddToyStrip />
+            {loggedInUser && <AddToyStrip />}
             <ToyFilter
                 filterBy={filterBy}
                 setFilterBy={setFilterBy}

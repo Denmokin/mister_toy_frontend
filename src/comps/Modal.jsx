@@ -17,7 +17,7 @@ export function Modal({ children }) {
     }, [isOpen])
 
     const handleBackdropClick = (ev) => {
-        if (ev.target === dialogRef.current) onClose()
+        if (ev.target === dialogRef.current) closeModal()
     }
 
     return (
@@ -27,7 +27,7 @@ export function Modal({ children }) {
             onCancel={closeModal}
             onClick={handleBackdropClick}
         >
-            <button className="btn-close-modal btn danger" onClick={closeModal}>&times;</button>
+            <button className="btn-close-modal btn danger" onClick={() => closeModal()}>&times;</button>
 
             <div className="modal-content">
                 {children}

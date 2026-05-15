@@ -1,7 +1,7 @@
 .btn {
   flex: 1;
   font-size: 1rem;
-  padding: 0.1rem 0.5rem;
+  padding: 0.3rem;
   border-radius: 0.2rem;
   background: var(--color-surface-alt);
 
@@ -20,20 +20,17 @@
   }
 
   &.save {
-    padding: 0.75rem;
     background-color: var(--color-accent);
     color: var(--color-text-on-light);
 
     &:hover {
       background-color: var(--color-accent-hover);
     }
-
-
   }
 
   &.text-btn {
     background: transparent;
-    color: #555;
+    color: var(--color-text);
     font-size: 0.85rem;
     text-decoration: underline;
     padding: 0;
@@ -42,10 +39,6 @@
 
 }
 
-input:focus {
-  outline: none;
-  border-color: #8e54e9;
-}
 
 
 form {

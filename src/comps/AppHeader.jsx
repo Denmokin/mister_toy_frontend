@@ -62,7 +62,7 @@ export function AppHeader() {
 
             <div className='app-header__auth-buttons'>
                 {loggedInUser ? (
-                    <button onClick={() => logout()} className='app-header__btn'>LogOut</button>
+                    <button onClick={() => logout()} className='app-header__btn'>Logout</button>
                 ) : (
                     <div className='app-header__auth-new'>
                         <button onClick={() => handleModalOpen(true)} className='app-header__btn btn'>Login</button>

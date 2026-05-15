@@ -18,7 +18,7 @@
 
 .btn-close-modal {
     z-index: 100;
-
+    padding: 0 0.4rem;
     position: absolute;
     top: 10px;
     right: 10px;
