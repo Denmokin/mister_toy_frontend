@@ -10,6 +10,7 @@ import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.j
 import { login, logout, signup } from "../store/actions/user.actions.js"
 
 
+
 // import { toyService } from "../service/toy.service.local.js"
 import { toyService } from "../service/toy.service.js"
 
@@ -17,9 +18,10 @@ export function ToyIndex() {
     const navigate = useNavigate()
 
     const toys = useSelector(storeState => storeState.toyModule.toys)
-    console.log('toys: ', toys)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
+    const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
+
 
     useEffect(() => {
         loadToys()
@@ -54,6 +56,7 @@ export function ToyIndex() {
                 onEdit={onEdit}
                 onRemove={onRemove}
                 onDetails={onDetails}
+                loggedInUser={loggedInUser}
             /> : <div>Loading...</div>}
         </main>
     )

@@ -1,6 +1,12 @@
 import { ToyPreview } from "./ToyPreview";
 
-export function ToyList({ toys, onEdit, onDetails, onRemove }) {
+export function ToyList({ toys, onEdit, onDetails, onRemove, loggedInUser }) {
+
+    function _isUserCreator({ creator }) {
+        if (!loggedInUser) return false
+        if (loggedInUser.isAdmin === 'true') return true
+        return loggedInUser._id === creator._id
+    }
 
     return <section className="toy-list">
         <ul>
@@ -12,14 +18,17 @@ export function ToyList({ toys, onEdit, onDetails, onRemove }) {
                             onClick={() => onDetails(toy._id)}>
                             Details
                         </button>
-                        <button className="toy-preview__button btn"
-                            onClick={() => onEdit(toy._id)}>
-                            Edit
-                        </button>
-                        <button className="toy-preview__button btn danger"
-                            onClick={() => onRemove(toy._id)}>
-                            Remove
-                        </button>
+                        {_isUserCreator(toy) && <div className="toy-preview__user-actions">
+                            <button className="toy-preview__button btn"
+                                onClick={() => onEdit(toy._id)}>
+                                Edit
+                            </button>
+                            <button className="toy-preview__button btn danger"
+                                onClick={() => onRemove(toy._id)}>
+                                Remove
+                            </button>
+                        </div>}
+
                     </div>
                 </li>)}
         </ul>
