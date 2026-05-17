@@ -6,6 +6,8 @@
 
     padding: 1rem;
 
+    background-color: var(--color-primary);
+
     .filter-group {
         display: flex;
         flex-direction: row;

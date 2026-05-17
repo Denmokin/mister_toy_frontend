@@ -22,6 +22,7 @@ export function AuthForm({
                 .then((user) => {
                     if (user) {
                         navigate('/toy')
+                        setHasChanges(false)
                         closeModal()
                     }
                     else return
@@ -39,6 +40,7 @@ export function AuthForm({
                 .then((user) => {
                     if (user) {
                         navigate('/toy')
+                        setHasChanges(false)
                         closeModal()
                     }
                     else return

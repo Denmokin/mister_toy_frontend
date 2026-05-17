@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { toCap } from '../service/util.service.js'
 
@@ -15,10 +15,11 @@ import logo from '../assets/vite.svg'
 export function AppHeader() {
 
     const setHasChanges = useConfirmTabClose()
+    const navigate = useNavigate()
 
     const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
-
     const [isLoginMode, setIsLoginMode] = useState(null)
+
 
 
     function handleModalOpen(isLogin) {
@@ -28,6 +29,7 @@ export function AppHeader() {
 
     function handleModalClose() {
         closeModal()
+        setHasChanges(false)
     }
 
     const navLinks = [
@@ -37,13 +39,13 @@ export function AppHeader() {
     ]
 
     if (loggedInUser) {
-        navLinks.push({ name: 'user', link: '/user' })
+        navLinks.push({ name: 'user', link: `/user/${loggedInUser._id}` })
     }
 
 
     function onLogout() {
-        return logout()
-
+        navigate('/toy')
+        logout()
     }
 
     return (
@@ -62,7 +64,7 @@ export function AppHeader() {
 
             <div className='app-header__auth-buttons'>
                 {loggedInUser ? (
-                    <button onClick={() => logout()} className='app-header__btn'>Logout</button>
+                    <button onClick={() => onLogout()} className='app-header__btn'>Logout</button>
                 ) : (
                     <div className='app-header__auth-new'>
                         <button onClick={() => handleModalOpen(true)} className='app-header__btn btn'>Login</button>

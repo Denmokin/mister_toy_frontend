@@ -1,8 +1,9 @@
 import { ToyFilter } from "../comps/ToyFilter.jsx"
 import { ToyList } from "../comps/ToyList.jsx"
 import { AddToyStrip } from "../comps/AddToyStrip.jsx"
+import { UserInfo } from "../comps/UserInfo.jsx"
 
-import { useNavigate } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { useEffect } from "react"
 import { useSelector } from 'react-redux'
 
@@ -10,24 +11,29 @@ import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.j
 import { login, logout, signup } from "../store/actions/user.actions.js"
 
 
+
 // import { toyService } from "../service/toy.service.local.js"
 import { toyService } from "../service/toy.service.js"
 
-export function ToyIndex() {
+export function UserPage() {
+    const { userId } = useParams()
+
     const navigate = useNavigate()
 
-    const toys = useSelector(storeState => storeState.toyModule.toys)
-    const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
+    let toys = useSelector(storeState => storeState.toyModule.toys)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
 
+    if (!loggedInUser.isAdmin) {
+        toys = toys.filter(toy => toy.creator._id === userId)
+    }
 
     useEffect(() => {
         loadToys()
             .catch(err => {
-                console.log('Cannot load toys!', err)
+                showErrorMsg('Cannot load toys!', err)
             })
-    }, [filterBy])
+    }, [userId])
 
     function onRemove(toyId) {
         removeToy(toyId)
@@ -43,20 +49,23 @@ export function ToyIndex() {
             .then(() => navigate(`/${toyId}`))
     }
 
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
+
     return (
         <main>
-            {loggedInUser && <AddToyStrip />}
-            <ToyFilter
-                filterBy={filterBy}
-                setFilterBy={setFilterBy}
+            <UserInfo
+                toys={toys}
+                loggedInUser={loggedInUser}
             />
-            {!isLoading ? <ToyList
+            <ToyList
                 toys={toys}
                 onEdit={onEdit}
                 onRemove={onRemove}
                 onDetails={onDetails}
                 loggedInUser={loggedInUser}
-            /> : <div>Loading...</div>}
+            />
         </main>
     )
 }

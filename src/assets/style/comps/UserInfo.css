@@ -1,0 +1,11 @@
+.user-info-strip{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    font-size: 1rem;
+    color: var(--color-text-on-primary);
+
+    padding: 1rem;
+    background-color: var(--color-primary);
+}

@@ -65,12 +65,13 @@ export function toyReducer(state = initiateState, action = {}) {
             return state
     }
 
-    function _backUpToy(state, action) {
-        return {
-            ...state,
-            toys: toys.map(toy => {
-                toy._id === action.toyId ? { ...toy, backupToy: toy } : toy
-            })
-        }
+}
+
+function _backUpToy(state, action) {
+    return {
+        ...state,
+        toys: toys.map(toy => {
+            toy._id === action.toyId ? { ...toy, backupToy: toy } : toy
+        })
     }
 }

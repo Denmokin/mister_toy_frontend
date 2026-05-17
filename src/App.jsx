@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import { AppHeader } from './comps/AppHeader.jsx'
 import { ToyIndex } from './pages/ToyIndex.jsx'
+import { UserPage } from './pages/UserPage.jsx'
 import { ToyDetails } from './pages/ToyDetails.jsx'
 import { ToyEdit } from './pages/ToyEdit.jsx'
 import { Provider, useSelector } from 'react-redux'
@@ -18,6 +19,7 @@ function App() {
         <section className="app">
           <Routes>
             <Route element={<ToyIndex />} path='/toy' />
+            <Route element={<UserPage />} path='/user/:userId' />
             <Route element={<ToyDetails />} path='/:toyId' />
             <Route element={<ToyEdit />} path='/toy/edit' />
             <Route element={<ToyEdit />} path='/toy/edit/:toyId' />

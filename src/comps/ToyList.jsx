@@ -1,10 +1,16 @@
+import { useEffect } from "react";
 import { ToyPreview } from "./ToyPreview";
-
-export function ToyList({ toys, onEdit, onDetails, onRemove, loggedInUser }) {
+export function ToyList({
+    toys,
+    onEdit,
+    onDetails,
+    onRemove,
+    loggedInUser,
+    userId }) {
 
     function _isUserCreator({ creator }) {
         if (!loggedInUser) return false
-        if (loggedInUser.isAdmin === 'true') return true
+        if (loggedInUser.isAdmin) return true
         return loggedInUser._id === creator._id
     }
 
