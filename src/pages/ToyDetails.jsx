@@ -8,6 +8,7 @@ import { toyService } from "../service/toy.service.js"
 export function ToyDetails() {
     const { toyId } = useParams()
     const [toy, setToy] = useState(null)
+    const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const dispatch = useDispatch()
 
@@ -50,9 +51,9 @@ export function ToyDetails() {
                     explicabo veritatis corrupti perspiciatis repellat, enim quibusdam!
                 </p>
                 <div className="toy-details__actions">
-                    <Link to={`/toy/edit/${toy._id}`}>
+                    {loggedInUser && <Link to={`/toy/edit/${toy._id}`}>
                         <button className='toy-details__button btn save'>Edit</button>
-                    </Link>
+                    </Link>}
                     <Link to="/toy">
                         <button className='toy-details__button btn'>back</button>
                     </Link>

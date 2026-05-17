@@ -21,8 +21,8 @@ function getById(userId) {
 
 function getEmptyCredentials() {
     return {
-        username: '',
-        password: '',
+        username: 'Admin',
+        password: 'admin',
         verifiedPassword: '',
         fullname: ''
     }
