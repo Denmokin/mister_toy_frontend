@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router"
 import { saveToy } from "../store/actions/toy.actions.js"
 import { useSelector, useDispatch } from "react-redux"
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
+import { utilService } from "../service/util.service.js"
+
 
 // import { toyService } from "../service/toy.service.local.js"
 import { toyService } from "../service/toy.service.js"
@@ -14,6 +16,8 @@ export function ToyEdit() {
     const setHasChanges = useConfirmTabClose()
 
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
+    const toyLabels = useSelector(storeState => storeState.toyModule.toyLabels)
+
 
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
 
@@ -64,6 +68,8 @@ export function ToyEdit() {
             case 'file':
                 value = URL.createObjectURL(target.files[0])
                 break
+            case 'select-multiple':
+                value = Array.from(target.selectedOptions, (option) => option.value)
             default:
                 break
         }
@@ -105,6 +111,7 @@ export function ToyEdit() {
                         required
                     />
                 </div>
+
                 <div className="form-group">
                     <label htmlFor="imgUrl">Image URL</label>
                     <input
@@ -116,7 +123,16 @@ export function ToyEdit() {
                         placeholder="Enter image URL"
                     />
                 </div>
-
+                <div className="form-group">
+                    <label htmlFor="txt">Choose Label</label>
+                    <select
+                        onChange={handleChange}
+                        name="labels"
+                        multiple
+                        value={toyToEdit.labels || []}>
+                        {toyLabels.map(label => <option key={utilService.makeId(label)} value={label}>{label}</option>)}
+                    </select>
+                </div>
                 <div className="form-group">
                     <label htmlFor="imgFile">Or Upload Image</label>
                     <input

@@ -18,6 +18,11 @@ const initiateState = {
     filterBy: toyService.getDefaultFilters(),
     isLoading: false,
     backupToys: [],
+    toyLabels: [
+        'Doll', 'Battery Powered', 'Baby', 'Outdoor', 'Educational',
+        'Wooden', 'Electronic', 'Puzzle', 'Action Figure', 'Creative',
+        'Musical', 'STEM', 'Pretend Play', 'Ages 3+', 'Ages 6+', 'Ages 10+'
+    ]
 }
 
 export function toyReducer(state = initiateState, action = {}) {

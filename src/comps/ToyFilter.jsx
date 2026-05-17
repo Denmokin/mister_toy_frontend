@@ -1,6 +1,9 @@
+import { toyService } from '../service/toy.service.js'
+import { utilService } from '../service/util.service.js'
 import { useEffect, useRef, useState } from "react"
 
-export function ToyFilter({ filterBy, setFilterBy }) {
+
+export function ToyFilter({ filterBy, setFilterBy, toyLabels, onClearFilter }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
@@ -20,10 +23,18 @@ export function ToyFilter({ filterBy, setFilterBy }) {
             case 'checkbox':
                 value = target.checked ? true : ''
                 break
+            case 'select-multiple':
+                value = Array.from(target.selectedOptions, (option) => option.value)
+                break
             default: break
         }
 
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+    }
+
+    function clearFilter() {
+        onClearFilter()
+        setFilterByToEdit(toyService.getDefaultFilters())
     }
 
     const { txt = '', inStock = '', maxPrice = 0 } = filterByToEdit
@@ -31,7 +42,7 @@ export function ToyFilter({ filterBy, setFilterBy }) {
     return (
         <section>
             <form className="toy-filter_form">
-                <div className="filter-group">
+                <div className="form-group">
                     <label htmlFor="txt">Search by name</label>
                     <input
                         value={txt}
@@ -42,8 +53,19 @@ export function ToyFilter({ filterBy, setFilterBy }) {
                         id="txt"
                     />
                 </div>
+                <div className="form-group">
+                    <label htmlFor="txt">Select by label</label>
+                    <select
+                        onChange={handleChange}
+                        name="labels"
+                        multiple
+                        value={filterByToEdit.labels || []}>
+                        <option value={''}> All </option>
+                        {toyLabels.map(label => <option key={utilService.makeId(label)} value={label}>{label}</option>)}
+                    </select>
+                </div>
 
-                <div className="filter-group checkbox-group">
+                <div className="form-group checkbox-group">
                     <label htmlFor="inStock">Is in stock</label>
                     <input
                         checked={inStock === true}
@@ -54,7 +76,7 @@ export function ToyFilter({ filterBy, setFilterBy }) {
                     />
                 </div>
 
-                <div className="filter-group">
+                <div className="form-group">
                     <label htmlFor="maxPrice">Max Price</label>
                     <input
                         value={maxPrice || ''}
@@ -64,6 +86,11 @@ export function ToyFilter({ filterBy, setFilterBy }) {
                         id="maxPrice"
                     />
                 </div>
+                <button
+                    className='btn secondary'
+                    type='button'
+                    onClick={() => clearFilter()}>Clear Filters
+                </button>
             </form>
         </section>
     )

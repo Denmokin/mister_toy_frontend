@@ -3,7 +3,6 @@ body {
 }
 
 .btn {
-  flex: 1;
   font-size: 1rem;
   padding: 0.3rem;
   border-radius: 0.2rem;
@@ -20,6 +19,15 @@ body {
 
     &:hover {
       background-color: var(--color-secondary-hover);
+    }
+  }
+
+   &.secondary {
+    background-color: var(--color-accent);
+    color: var(--color-text-on-light);
+
+    &:hover {
+      background-color: var(--color-accent-hover);
     }
   }
 
