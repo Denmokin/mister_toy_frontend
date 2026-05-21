@@ -1,6 +1,5 @@
 import { httpService } from "./http.service"
 
-const SESSION_STORAGE_KEY = 'loggedInUser'
 const USER_URL = 'user/'
 
 export const userService = {
@@ -9,14 +8,22 @@ export const userService = {
     getEmptyCredentials
 }
 
-function query() {
-    return httpService.get(USER_URL)
-        .then(res => res.data)
+async function query() {
+    try {
+        return await httpService.get(USER_URL)
+    } catch (err) {
+        console.error('userService.query frontend failed:', err)
+        throw err
+    }
 }
 
-function getById(userId) {
-    return httpService.get(USER_URL + userId)
-        .then(res => res.data)
+async function getById(userId) {
+    try {
+        return await httpService.get(USER_URL + userId)
+    } catch (err) {
+        console.error('userService.getById frontend failed:', err)
+        throw err
+    }
 }
 
 function getEmptyCredentials() {

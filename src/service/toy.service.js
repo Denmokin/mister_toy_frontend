@@ -11,26 +11,44 @@ export const toyService = {
     getDefaultFilters,
 }
 
-
-function query(filterBy = {}) {
-    return httpService.get(BASE_URL, filterBy)
-}
-
-function getById(toyId) {
-    return httpService.get(BASE_URL + toyId)
-}
-
-function save(toy) {
-    if (toy._id) {
-        return httpService.put(BASE_URL + toy._id, toy)
-    }
-    else {
-        return httpService.post(BASE_URL, toy)
+async function query(filterBy = {}) {
+    try {
+        return await httpService.get(BASE_URL, filterBy)
+    } catch (err) {
+        console.error('toyService.query frontend failed:', err)
+        throw err
     }
 }
 
-function remove(toyId) {
-    return httpService.delete(BASE_URL + toyId)
+async function getById(toyId) {
+    try {
+        return await httpService.get(BASE_URL + toyId)
+    } catch (err) {
+        console.error('toyService.getById frontend failed:', err)
+        throw err
+    }
+}
+
+async function save(toy) {
+    try {
+        if (toy._id) {
+            return await httpService.put(BASE_URL + toy._id, toy)
+        } else {
+            return await httpService.post(BASE_URL, toy)
+        }
+    } catch (err) {
+        console.error('toyService.save frontend failed:', err)
+        throw err
+    }
+}
+
+async function remove(toyId) {
+    try {
+        return await httpService.delete(BASE_URL + toyId)
+    } catch (err) {
+        console.error('toyService.remove frontend failed:', err)
+        throw err
+    }
 }
 
 function getEmptyToy() {
@@ -45,9 +63,5 @@ function getEmptyToy() {
 }
 
 function getDefaultFilters() {
-    return { txt: '', labels: [], inStock: '', maxPrice: '', }
+    return { txt: '', labels: [], inStock: '', maxPrice: '' }
 }
-
-
-
-

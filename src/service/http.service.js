@@ -1,4 +1,5 @@
 import Axios from 'axios'
+
 const axios = Axios.create({ withCredentials: true })
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
@@ -22,22 +23,22 @@ export const httpService = {
     }
 }
 
-function ajax(endpoint, method = 'GET', data = null) {
+async function ajax(endpoint, method = 'GET', data = null) {
     const options = {
         url: `${BASE_URL}${endpoint}`,
         method,
         data,
-        params: (method === 'GET') ? data : null
+        params: method === 'GET' ? data : null,
     }
 
-    return axios(options)
-        .then(res => res.data)
-        .catch(err => {
-            
-            console.log(`Had Issues ${method}ing to the backend, endpoint: ${endpoint}, with data: `, data)
-            console.dir(err)
+    try {
+        const res = await axios(options)
+        return res.data
+    } catch (err) {
+        console.log(`Had issues ${method}ing to the backend, endpoint: ${endpoint}, with data:`, data)
+        console.dir(err)
 
-            if (err.response && err.response.status === 401) sessionStorage.clear()
-            return Promise.reject(err)
-        })
+        if (err.response && err.response.status === 401) sessionStorage.clear()
+        throw err
+    }
 }
