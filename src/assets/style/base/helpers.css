@@ -22,7 +22,7 @@ body {
     }
   }
 
-   &.secondary {
+  &.secondary {
     background-color: var(--color-accent);
     color: var(--color-text-on-light);
 
@@ -71,6 +71,11 @@ form {
     border: 1px solid var(--color-surface-alt);
     border-radius: 6px;
     font-size: 1rem;
+    background-color: white;
+  }
+
+  select {
+    background-color: white;
   }
 
   input:focus {

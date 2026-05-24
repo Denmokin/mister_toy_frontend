@@ -2,9 +2,15 @@ import { SET_MODAL } from '../reducers/modal.reducer.js'
 
 import { store } from '../store.js'
 
-export function closeModal() {
-    return store.dispatch({ type: SET_MODAL, setModal: false })
+function setModal(isModalOpen) {
+    return store.dispatch({ type: SET_MODAL, isModalOpen })
 }
+
 export function openModal() {
-    return store.dispatch({ type: SET_MODAL, setModal: true })
+    console.log('sss')
+    return setModal(true)
+}
+
+export function closeModal() {
+    return setModal(false)
 }

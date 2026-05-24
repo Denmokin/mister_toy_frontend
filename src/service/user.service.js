@@ -26,10 +26,10 @@ async function getById(userId) {
     }
 }
 
-function getEmptyCredentials() {
+function getEmptyCredentials(demo = '') {
     return {
-        username: 'Admin',
-        password: 'admin',
+        username: `${demo ? 'Admin' : ''}`,
+        password: `${demo ? 'admin' : ''}`,
         verifiedPassword: '',
         fullname: ''
     }

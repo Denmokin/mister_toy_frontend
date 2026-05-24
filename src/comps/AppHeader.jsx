@@ -9,27 +9,22 @@ import { useConfirmTabClose } from '../hooks/useConfirmTabClose.js'
 import { useSelector } from 'react-redux'
 import { closeModal, openModal } from '../store/actions/modal.actions.js'
 
-
 import logo from '../assets/vite.svg'
 
 export function AppHeader() {
-
-    const setHasChanges = useConfirmTabClose()
     const navigate = useNavigate()
 
     const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
-    const [isLoginMode, setIsLoginMode] = useState(null)
+    const [isLoginMode, setIsLoginMode] = useState(true)
 
-
-
-    function handleModalOpen(isLogin) {
+    function openLoginModal() {
+        setIsLoginMode(true)
         openModal()
-        setIsLoginMode(isLogin)
     }
 
-    function handleModalClose() {
-        closeModal()
-        setHasChanges(false)
+    function openSignupModal() {
+        setIsLoginMode(false)
+        openModal()
     }
 
     const navLinks = [
@@ -42,33 +37,44 @@ export function AppHeader() {
         navLinks.push({ name: 'user', link: `/user/${loggedInUser._id}` })
     }
 
-
-    function onLogout() {
-        navigate('/toy')
-        logout()
+    async function onLogout() {
+        try {
+            await logout()
+            navigate('/toy')
+        } catch (err) {
+            console.log('Cannot logout', err)
+        }
     }
 
     return (
         <section className="app-header">
             <img className='app-header__logo' src={logo} alt='logo' />
-            <nav className="app-header__nav" >
-                {navLinks.map(nav =>
+
+            <nav className="app-header__nav">
+                {navLinks.map(nav => (
                     <NavLink
                         key={nav.name}
                         to={nav.link}
                         className="app-header__nav-link"
-                    >{toCap(nav.name)}
+                    >
+                        {toCap(nav.name)}
                     </NavLink>
-                )}
+                ))}
             </nav>
 
             <div className='app-header__auth-buttons'>
                 {loggedInUser ? (
-                    <button onClick={() => onLogout()} className='app-header__btn'>Logout</button>
+                    <button onClick={onLogout} className='app-header__btn'>
+                        Logout
+                    </button>
                 ) : (
                     <div className='app-header__auth-new'>
-                        <button onClick={() => handleModalOpen(true)} className='app-header__btn btn'>Login</button>
-                        <button onClick={() => handleModalOpen(false)} className='app-header__btn btn'>SignUp</button>
+                        <button onClick={openLoginModal} className='app-header__btn btn'>
+                            Login
+                        </button>
+                        <button onClick={openSignupModal} className='app-header__btn btn'>
+                            SignUp
+                        </button>
                     </div>
                 )}
             </div>
@@ -77,16 +83,11 @@ export function AppHeader() {
                 <AuthForm
                     login={login}
                     signup={signup}
-                    loggedInUser={loggedInUser}
-                    setHasChanges={setHasChanges}
                     isLoginMode={isLoginMode}
                     setIsLoginMode={setIsLoginMode}
                     closeModal={closeModal}
                 />
             </Modal>
-
-
-        </section >
+        </section>
     )
-
 }

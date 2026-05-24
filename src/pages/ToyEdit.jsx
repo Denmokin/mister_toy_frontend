@@ -15,42 +15,43 @@ export function ToyEdit() {
     const dispatch = useDispatch()
     const setHasChanges = useConfirmTabClose()
 
-    const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
+    const [isLoading, setIsLoading] = useState(false)
     const toyLabels = useSelector(storeState => storeState.toyModule.toyLabels)
 
 
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
 
     useEffect(() => {
-        if (toyId) {
-            loadToy()
+        async function loadToy() {
+            if (!toyId) return
+            setIsLoading(true)
+
+            try {
+                const toy = await toyService.getById(toyId)
+                if (toy) setToyToEdit(toy)
+            }
+            catch (err) {
+                console.error('Error loading toy:', err)
+            }
+            finally {
+                dispatch({ type: 'isLoading', isLoading: false })
+            }
         }
+
+        loadToy()
     }, [toyId])
 
-    function loadToy() {
-        dispatch({ type: 'isLoading', isLoading: true })
 
-        toyService.getById(toyId)
-            .then(toy => {
-                if (toy) {
-                    setToyToEdit(toy)
-                }
-            })
-            .catch(err => {
-                console.error('Error loading toy:', err)
-            })
-            .finally(() => {
-                dispatch({ type: 'isLoading', isLoading: false })
-            })
-    }
 
-    function handleSubmit(ev) {
+    async function handleSubmit(ev) {
         ev.preventDefault()
-        saveToy(toyToEdit)
-            .then(() => {
-                navigate('/toy')
-            })
-            .catch(err => console.log('err: ', err))
+        try {
+            await saveToy(toyToEdit)
+            navigate('/toy')
+        }
+        catch (err) {
+            console.log('err: ', err)
+        }
     }
 
     function handleChange({ target }) {

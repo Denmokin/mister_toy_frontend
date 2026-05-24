@@ -9,6 +9,8 @@ import { ToyDetails } from './pages/ToyDetails.jsx'
 import { ToyEdit } from './pages/ToyEdit.jsx'
 import { Provider, useSelector } from 'react-redux'
 import { store } from './store/store.js'
+import { HomePage } from './pages/HomePage.jsx'
+import { AboutPage } from './pages/AboutPage.jsx'
 
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
         <AppHeader />
         <section className="app">
           <Routes>
+            <Route element={<AboutPage />} path='/about' />
+            <Route element={<HomePage />} path='/' />
             <Route element={<ToyIndex />} path='/toy' />
             <Route element={<UserPage />} path='/user/:userId' />
             <Route element={<ToyDetails />} path='/:toyId' />

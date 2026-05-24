@@ -1,57 +1,41 @@
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { userService } from "../service/user.service"
 
 export function AuthForm({
-    setHasChanges,
     login,
     signup,
     isLoginMode,
     setIsLoginMode,
-    closeModal }) {
+    closeModal
+}) {
+    const [credentials, setCredentials] = useState(userService.getEmptyCredentials(true))
 
-    const [credentials, setCredentials] = useState(userService.getEmptyCredentials())
     const navigate = useNavigate()
 
-    function handleSubmit(ev) {
+    async function handleSubmit(ev) {
         ev.preventDefault()
 
-        if (isLoginMode) {
-            login(credentials)
-                .then((user) => {
-                    if (user) {
-                        navigate('/toy')
-                        setHasChanges(false)
-                        closeModal()
-                    }
-                    else return
-                })
-                .catch(err => console.log('err: ', err))
+        try {
+            let user
+
+            if (isLoginMode) {
+                user = await login(credentials)
+            } else {
+                if (credentials.password !== credentials.verifiedPassword) return
+
+                const signUpCreds = { ...credentials }
+                delete signUpCreds.verifiedPassword
+                user = await signup(signUpCreds)
+            }
+
+            if (user) {
+                navigate('/toy')
+                closeModal()
+            }
+        } catch (err) {
+            console.log('Cannot authenticate:', err)
         }
-        else {
-            if (credentials.password !== credentials.verifiedPassword) return
-
-            const signUpCreds = { ...credentials }
-            delete signUpCreds.verifiedPassword
-
-
-            signup(signUpCreds)
-                .then((user) => {
-                    if (user) {
-                        navigate('/toy')
-                        setHasChanges(false)
-                        closeModal()
-                    }
-                    else return
-                })
-                .catch(err => console.log('err: ', err))
-
-        }
-    }
-
-    function onSetIsLoginToggle() {
-        setIsLoginMode(prevMode => !prevMode)
     }
 
     function handleChange({ target }) {
@@ -66,12 +50,15 @@ export function AuthForm({
             case 'checkbox':
                 value = target.checked
                 break
-            default:
-                break
         }
 
         setCredentials(prevEdit => ({ ...prevEdit, [field]: value }))
-        setHasChanges(true)
+    }
+
+
+    function onAuthToggleMode() {
+        setIsLoginMode(prevMode => !prevMode)
+        setCredentials(userService.getEmptyCredentials())
     }
 
     const { username, fullname, password, verifiedPassword } = credentials
@@ -92,17 +79,20 @@ export function AuthForm({
                     />
                 </div>
 
-                {!isLoginMode && <div className="form-group">
-                    <label htmlFor="fullname">Full Name</label>
-                    <input
-                        type="text"
-                        name="fullname"
-                        id="fullname"
-                        value={fullname}
-                        onChange={handleChange}
-                        placeholder="Enter Fullname"
-                    />
-                </div>}
+                {!isLoginMode && (
+                    <div className="form-group">
+                        <label htmlFor="fullname">Full Name</label>
+                        <input
+                            type="text"
+                            name="fullname"
+                            id="fullname"
+                            value={fullname}
+                            onChange={handleChange}
+                            placeholder="Enter Fullname"
+                            required={!isLoginMode}
+                        />
+                    </div>
+                )}
 
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
@@ -117,27 +107,33 @@ export function AuthForm({
                     />
                 </div>
 
-                {!isLoginMode && <div className="form-group">
-                    <label htmlFor="verifiedPassword">Verify Password</label>
-                    <input
-                        type="password"
-                        name="verifiedPassword"
-                        id="verifiedPassword"
-                        value={verifiedPassword}
-                        onChange={handleChange}
-                        placeholder="Verify Password"
-                        required
-                    />
-                </div>}
+                {!isLoginMode && (
+                    <div className="form-group">
+                        <label htmlFor="verifiedPassword">Verify Password</label>
+                        <input
+                            type="password"
+                            name="verifiedPassword"
+                            id="verifiedPassword"
+                            value={verifiedPassword}
+                            onChange={handleChange}
+                            placeholder="Verify Password"
+                            required
+                        />
+                    </div>
+                )}
 
                 <button className="auth-modal-form__button btn save" type="submit">
                     {isLoginMode ? 'Login' : 'Signup'}
                 </button>
 
-                <button onClick={() => onSetIsLoginToggle()} className="auth-modal-form__button btn text-btn" type="button">
+                <button
+                    onClick={onAuthToggleMode}
+                    className="auth-modal-form__button btn text-btn"
+                    type="button"
+                >
                     {isLoginMode ? "Don't have an account? Signup" : 'Already a user? Login'}
                 </button>
-            </form >
-        </div >
+            </form>
+        </div>
     )
 }

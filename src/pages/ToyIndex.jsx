@@ -7,12 +7,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 
 import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.js"
-import { login, logout, signup } from "../store/actions/user.actions.js"
-
-
-// import { toyService } from "../service/toy.service.local.js"
 import { toyService } from "../service/toy.service.js"
-import { store } from "../store/store.js"
 import { SET_FILTER_BY } from "../store/reducers/toy.reducer.js"
 
 export function ToyIndex() {
@@ -26,26 +21,35 @@ export function ToyIndex() {
 
     const dispatch = useDispatch()
 
-
     useEffect(() => {
         loadToys()
-            .catch(err => {
-                console.log('Cannot load toys!', err)
-            })
+            .catch(err => console.log('Cannot load toys!', err))
     }, [filterBy])
 
-    function onRemove(toyId) {
-        removeToy(toyId)
+    async function onRemove(toyId) {
+        try {
+            await removeToy(toyId)
+        } catch (err) {
+            console.log('Cannot remove toy!', err)
+        }
     }
 
-    function onEdit(toyId) {
-        toyService.getById(toyId)
-            .then(() => navigate(`edit/${toyId}`))
+    async function onEdit(toyId) {
+        try {
+            await toyService.getById(toyId)
+            navigate(`edit/${toyId}`)
+        } catch (err) {
+            console.log('Cannot edit toy!', err)
+        }
     }
 
-    function onDetails(toyId) {
-        toyService.getById(toyId)
-            .then(() => navigate(`/${toyId}`))
+    async function onDetails(toyId) {
+        try {
+            await toyService.getById(toyId)
+            navigate(`/${toyId}`)
+        } catch (err) {
+            console.log('Cannot get toy details!', err)
+        }
     }
 
     function onClearFilter() {
@@ -61,13 +65,16 @@ export function ToyIndex() {
                 setFilterBy={setFilterBy}
                 onClearFilter={onClearFilter}
             />
-            {!isLoading ? <ToyList
-                toys={toys}
-                onEdit={onEdit}
-                onRemove={onRemove}
-                onDetails={onDetails}
-                loggedInUser={loggedInUser}
-            /> : <div>Loading...</div>}
+            {!isLoading
+                ? <ToyList
+                    toys={toys}
+                    onEdit={onEdit}
+                    onRemove={onRemove}
+                    onDetails={onDetails}
+                    loggedInUser={loggedInUser}
+                />
+                : <div>Loading...</div>
+            }
         </main>
     )
 }
