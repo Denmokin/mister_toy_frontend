@@ -24,29 +24,35 @@ export function UserPage() {
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
 
-    if (!loggedInUser.isAdmin) {
-        toys = toys.filter(toy => toy.creator._id === userId)
-    }
-
     useEffect(() => {
-        loadToys()
-            .catch(err => {
-                showErrorMsg('Cannot load toys!', err)
-            })
+        loadToys({ creatorId: userId })
+            .catch(err => console.log('Cannot load toys!', err))
     }, [userId])
 
-    function onRemove(toyId) {
-        removeToy(toyId)
+    async function onRemove(toyId) {
+        try {
+            await removeToy(toyId)
+        } catch (err) {
+            console.log('Cannot remove toy!', err)
+        }
     }
 
-    function onEdit(toyId) {
-        toyService.getById(toyId)
-            .then(() => navigate(`edit/${toyId}`))
+    async function onEdit(toyId) {
+        try {
+            await toyService.getById(toyId)
+            navigate(`edit/${toyId}`)
+        } catch (err) {
+            console.log('Cannot edit toy!', err)
+        }
     }
 
-    function onDetails(toyId) {
-        toyService.getById(toyId)
-            .then(() => navigate(`/${toyId}`))
+    async function onDetails(toyId) {
+        try {
+            await toyService.getById(toyId)
+            navigate(`/${toyId}`)
+        } catch (err) {
+            console.log('Cannot get toy details!', err)
+        }
     }
 
     if (isLoading) {

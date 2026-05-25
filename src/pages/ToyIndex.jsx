@@ -18,6 +18,7 @@ export function ToyIndex() {
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
+    const totalPages = useSelector(storeState => storeState.toyModule.totalPages)
 
     const dispatch = useDispatch()
 
@@ -25,6 +26,15 @@ export function ToyIndex() {
         loadToys()
             .catch(err => console.log('Cannot load toys!', err))
     }, [filterBy])
+
+    function onChangePage(diff) {
+        let nextPageIdx = filterBy.pageIdx + diff
+
+        if (nextPageIdx < 0 || nextPageIdx >= totalPages) return
+
+        setFilterBy({ pageIdx: nextPageIdx })
+    }
+
 
     async function onRemove(toyId) {
         try {
@@ -66,15 +76,34 @@ export function ToyIndex() {
                 onClearFilter={onClearFilter}
             />
             {!isLoading
-                ? <ToyList
-                    toys={toys}
-                    onEdit={onEdit}
-                    onRemove={onRemove}
-                    onDetails={onDetails}
-                    loggedInUser={loggedInUser}
-                />
+                ? <>
+                    <ToyList
+                        toys={toys}
+                        onEdit={onEdit}
+                        onRemove={onRemove}
+                        onDetails={onDetails}
+                        loggedInUser={loggedInUser}
+                    />
+
+                    <div className="pagination" style={{ display: 'flex', gap: '10px', alignItems: 'center', margin: '20px 0' }}>
+                        <button
+                            disabled={filterBy.pageIdx === 0}
+                            onClick={() => onChangePage(-1)}
+                        >
+                            Prev
+                        </button>
+                        <span>Page {filterBy.pageIdx + 1} of {totalPages}</span>
+                        <button
+                            disabled={filterBy.pageIdx >= totalPages - 1}
+                            onClick={() => onChangePage(1)}
+                        >
+                            Next
+                        </button>
+                    </div>
+                </>
                 : <div>Loading...</div>
             }
         </main>
+
     )
 }

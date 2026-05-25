@@ -4,13 +4,11 @@ import { store } from '../store.js'
 // import { toyService } from '../../service/toy.service.local.js'
 import { toyService } from '../../service/toy.service.js'
 
-export async function loadToys() {
-    const filterBy = store.getState().toyModule.filterBy
+export async function loadToys(filterBy = store.getState().toyModule.filterBy) {
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
-
     try {
-        const toys = await toyService.query(filterBy)
-        store.dispatch({ type: SET_TOYS, toys })
+        const { toys, totalPages } = await toyService.query(filterBy)
+        store.dispatch({ type: SET_TOYS, toys, totalPages })
     }
     catch (err) {
         console.log('toy action - Cannot Load Toys', err)

@@ -63,5 +63,13 @@ function getEmptyToy() {
 }
 
 function getDefaultFilters() {
-    return { txt: '', labels: [], inStock: '', maxPrice: '' }
+    return {
+        txt: '',
+        labels: [],
+        inStock: '',
+        maxPrice: '',
+        pageIdx: 0,
+        pageSize: 6,
+        creatorId: '',
+    }
 }

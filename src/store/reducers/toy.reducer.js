@@ -18,6 +18,7 @@ const initiateState = {
     filterBy: toyService.getDefaultFilters(),
     isLoading: false,
     backupToys: [],
+    totalPages: 1,
     toyLabels: [
         'Doll', 'Battery Powered', 'Baby', 'Outdoor', 'Educational',
         'Wooden', 'Electronic', 'Puzzle', 'Action Figure', 'Creative',
@@ -29,7 +30,11 @@ export function toyReducer(state = initiateState, action = {}) {
     switch (action.type) {
 
         case SET_TOYS:
-            return { ...state, toys: action.toys }
+            return {
+                ...state,
+                toys: action.toys || [],
+                totalPages: action.totalPages || 1,
+            }
 
         case REMOVE_TOY:
             return {
@@ -47,12 +52,12 @@ export function toyReducer(state = initiateState, action = {}) {
         case UPDATE_TOY:
             return {
                 ...state,
-                toys: state.toys.filter(toy => toy._id === action.toyId ? action.toy : toy),
+                toys: state.toys.map(toy => toy._id === action.toyId ? action.toy : toy),
                 backupToys: [...state.toys]
             }
 
         case UNDO_TOY:
-            return { ...state.backupToys }
+            return { ...state, toys: state.backupToys }
 
         case SET_IS_LOADING:
             return { ...state, isLoading: action.isLoading }
