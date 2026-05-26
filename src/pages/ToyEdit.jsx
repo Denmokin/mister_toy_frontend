@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router"
-import { saveToy } from "../store/actions/toy.actions.js"
 import { useSelector, useDispatch } from "react-redux"
+import { useForm, Controller } from "react-hook-form"
+import Select from "react-select"
+
+import { saveToy } from "../store/actions/toy.actions.js"
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
-import { utilService } from "../service/util.service.js"
-
-
-// import { toyService } from "../service/toy.service.local.js"
 import { toyService } from "../service/toy.service.js"
 
 export function ToyEdit() {
@@ -14,158 +13,153 @@ export function ToyEdit() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const setHasChanges = useConfirmTabClose()
-
-    const [isLoading, setIsLoading] = useState(false)
     const toyLabels = useSelector(storeState => storeState.toyModule.toyLabels)
+    const [isLoading, setIsLoading] = useState(false)
 
-
-    const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
+    const {
+        register,
+        handleSubmit,
+        control,
+        reset,
+        setValue,
+        watch,
+        formState: { isDirty }
+    } = useForm({
+        defaultValues: toyService.getEmptyToy()
+    })
 
     useEffect(() => {
-        async function loadToy() {
-            if (!toyId) return
-            setIsLoading(true)
+        setHasChanges(isDirty)
+    }, [isDirty, setHasChanges])
 
+    useEffect(() => {
+        if (!toyId) return
+
+        async function loadToy() {
+            setIsLoading(true)
             try {
                 const toy = await toyService.getById(toyId)
-                if (toy) setToyToEdit(toy)
-            }
-            catch (err) {
+                reset(toy)
                 console.error('Error loading toy:', err)
             }
             finally {
+                setIsLoading(false)
                 dispatch({ type: 'isLoading', isLoading: false })
             }
         }
-
         loadToy()
-    }, [toyId])
+    }, [toyId, reset, dispatch])
 
-
-
-    async function handleSubmit(ev) {
-        ev.preventDefault()
+    async function onSubmit(data) {
         try {
-            await saveToy(toyToEdit)
+            await saveToy(data)
+            setHasChanges(false)
             navigate('/toy')
         }
         catch (err) {
-            console.log('err: ', err)
+            console.error('err: ', err)
         }
     }
 
-    function handleChange({ target }) {
-        const field = target.name
-        let value = target.value
-
-        switch (target.type) {
-            case 'number':
-            case 'range':
-                value = +value || ''
-                break
-            case 'checkbox':
-                value = target.checked
-                break
-            case 'file':
-                value = URL.createObjectURL(target.files[0])
-                break
-            case 'select-multiple':
-                value = Array.from(target.selectedOptions, (option) => option.value)
-            default:
-                break
+    function handleFileUpload(ev) {
+        const file = ev.target.files[0]
+        if (file) {
+            const url = URL.createObjectURL(file)
+            setValue('imgUrl', url, { shouldDirty: true })
         }
-
-        setToyToEdit(prevEdit => ({ ...prevEdit, [field]: value }))
-        setHasChanges(true)
     }
 
-    if (isLoading || !toyToEdit) {
-        return <div>Loading...</div>
-    }
+    const labelOptions = toyLabels.map(label => ({ value: label, label: label }))
+
+    const currentImgUrl = watch('imgUrl')
+
+    if (isLoading) return <div>Loading...</div>
 
     return (
         <section className="toy-edit">
-            <form className="toy-edit-form" onSubmit={handleSubmit}>
+            <form className="toy-edit-form" onSubmit={handleSubmit(onSubmit)}>
+
                 <div className="form-group">
                     <label htmlFor="name">Toy Name</label>
                     <input
+                        {...register("name", { required: true })}
                         type="text"
-                        name="name"
                         id="name"
-                        value={toyToEdit.name}
-                        onChange={handleChange}
                         placeholder="Enter toy name"
-                        required
                     />
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="price">Price</label>
                     <input
+                        {...register("price", { required: true, valueAsNumber: true, min: 1 })}
                         type="number"
-                        name="price"
                         id="price"
-                        value={toyToEdit.price}
-                        onChange={handleChange}
                         placeholder="Price"
-                        min="1"
-                        required
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="txt">Choose Labels</label>
+                    <Controller
+                        name="labels"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                {...field}
+                                isMulti
+                                options={labelOptions}
+                                placeholder="Select labels..."
+                                onChange={(selected) => {
+                                    field.onChange(selected.map(opt => opt.value))
+                                }}
+                                value={labelOptions.filter(opt =>
+                                    field.value?.includes(opt.value)
+                                )}
+                            />
+                        )}
                     />
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="imgUrl">Image URL</label>
                     <input
+                        {...register("imgUrl")}
                         type="text"
-                        name="imgUrl"
                         id="imgUrl"
-                        value={toyToEdit.imgUrl}
-                        onChange={handleChange}
                         placeholder="Enter image URL"
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="txt">Choose Label</label>
-                    <select
-                        onChange={handleChange}
-                        name="labels"
-                        multiple
-                        value={toyToEdit.labels || []}>
-                        {toyLabels.map(label => <option key={utilService.makeId(label)} value={label}>{label}</option>)}
-                    </select>
-                </div>
+
                 <div className="form-group">
                     <label htmlFor="imgFile">Or Upload Image</label>
                     <input
                         type="file"
-                        name="imgUrl"
-                        id="imgUrl"
+                        id="imgFile"
                         accept="image/*"
-                        onChange={handleChange}
+                        onChange={handleFileUpload}
                     />
                 </div>
 
-                {toyToEdit.imgUrl && (
+                {currentImgUrl && (
                     <img
                         className="toy-edit-form__img-preview"
-                        src={toyToEdit.imgUrl}
+                        src={currentImgUrl}
                         alt="Preview"
                     />
                 )}
 
                 <div className="form-group checkbox-group">
                     <input
+                        {...register("inStock")}
                         type="checkbox"
-                        name="inStock"
                         id="inStock"
-                        checked={toyToEdit.inStock}
-                        onChange={handleChange}
                     />
                     <label htmlFor="inStock">Is In Stock</label>
                 </div>
 
                 <button className="submit-btn btn save" type="submit">
-                    {toyToEdit._id ? 'Save Changes' : 'Add Toy'}
+                    {toyId ? 'Save Changes' : 'Add Toy'}
                 </button>
             </form>
         </section>

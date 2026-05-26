@@ -88,4 +88,9 @@ form {
     align-items: center;
     gap: 0.5rem;
   }
+
+  .error-text {
+    color: red;
+    font-size: 12px;
+  }
 }
