@@ -1,8 +1,8 @@
-export function UserInfo({ loggedInUser, toys }) {
+export function UserInfo({ loggedinUser, toys }) {
 
     return (
         <section className="user-info-strip">
-            <p>Hi, {loggedInUser.fullname}</p>
+            <p>Hi, {loggedinUser.fullname}</p>
             <p>Total Toys: {toys.length}</p>
         </section>
     )

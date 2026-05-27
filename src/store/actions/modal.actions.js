@@ -7,7 +7,6 @@ function setModal(isModalOpen) {
 }
 
 export function openModal() {
-    console.log('sss')
     return setModal(true)
 }
 

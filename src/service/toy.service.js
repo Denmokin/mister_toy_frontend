@@ -70,6 +70,5 @@ function getDefaultFilters() {
         maxPrice: '',
         pageIdx: 0,
         pageSize: 6,
-        creatorId: '',
     }
 }

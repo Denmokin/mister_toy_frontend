@@ -14,7 +14,7 @@ import logo from '../assets/vite.svg'
 export function AppHeader() {
     const navigate = useNavigate()
 
-    const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
+    const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
     const [isLoginMode, setIsLoginMode] = useState(true)
 
     function openLoginModal() {
@@ -33,8 +33,8 @@ export function AppHeader() {
         { name: 'about', link: '/about' },
     ]
 
-    if (loggedInUser) {
-        navLinks.push({ name: 'user', link: `/user/${loggedInUser._id}` })
+    if (loggedinUser) {
+        navLinks.push({ name: 'user', link: `/user/${loggedinUser._id}` })
     }
 
     async function onLogout() {
@@ -63,7 +63,7 @@ export function AppHeader() {
             </nav>
 
             <div className='app-header__auth-buttons'>
-                {loggedInUser ? (
+                {loggedinUser ? (
                     <button onClick={onLogout} className='app-header__btn'>
                         Logout
                     </button>

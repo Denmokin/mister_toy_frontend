@@ -22,7 +22,7 @@ export function UserPage() {
 
     let toys = useSelector(storeState => storeState.toyModule.toys)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
-    const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
+    const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
 
     useEffect(() => {
         loadToys({ creatorId: userId })
@@ -63,14 +63,14 @@ export function UserPage() {
         <main>
             <UserInfo
                 toys={toys}
-                loggedInUser={loggedInUser}
+                loggedinUser={loggedinUser}
             />
             <ToyList
                 toys={toys}
                 onEdit={onEdit}
                 onRemove={onRemove}
                 onDetails={onDetails}
-                loggedInUser={loggedInUser}
+                loggedinUser={loggedinUser}
             />
         </main>
     )

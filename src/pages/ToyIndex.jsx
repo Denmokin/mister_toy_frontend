@@ -17,7 +17,7 @@ export function ToyIndex() {
     const toyLabels = useSelector(storeState => storeState.toyModule.toyLabels)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
-    const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
+    const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
     const totalPages = useSelector(storeState => storeState.toyModule.totalPages)
 
     const dispatch = useDispatch()
@@ -68,7 +68,7 @@ export function ToyIndex() {
 
     return (
         <main>
-            {loggedInUser && <AddToyStrip />}
+            {loggedinUser?.isAdmin && <AddToyStrip />}
             <ToyFilter
                 filterBy={filterBy}
                 toyLabels={toyLabels}
@@ -82,10 +82,10 @@ export function ToyIndex() {
                         onEdit={onEdit}
                         onRemove={onRemove}
                         onDetails={onDetails}
-                        loggedInUser={loggedInUser}
+                        loggedinUser={loggedinUser}
                     />
 
-                    <div className="pagination" style={{ display: 'flex', gap: '10px', alignItems: 'center', margin: '20px 0' }}>
+                    <div className="pagination">
                         <button
                             disabled={filterBy.pageIdx === 0}
                             onClick={() => onChangePage(-1)}

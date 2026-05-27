@@ -1,19 +1,19 @@
 import { httpService } from "./http.service"
 
-const SESSION_STORAGE_KEY = 'loggedInUser'
+const SESSION_STORAGE_KEY = 'loggedinUser'
 const AUTH_URL = 'auth/'
 
 export const authService = {
   login,
   signup,
   logout,
-  getLoggedInUser,
+  getloggedinUser,
 }
 
 async function login({ username, password }) {
   try {
     const user = await httpService.post(AUTH_URL + 'login', { username, password })
-    if (user) return _setLoggedInUser(user)
+    if (user) return _setloggedinUser(user)
     return user
   } catch (err) {
     console.error('authService.login frontend failed:', err)
@@ -24,7 +24,7 @@ async function login({ username, password }) {
 async function signup({ username, password, fullname }) {
   try {
     const user = await httpService.post(AUTH_URL + 'signup', { username, password, fullname })
-    if (user) return _setLoggedInUser(user)
+    if (user) return _setloggedinUser(user)
     return user
   } catch (err) {
     console.error('authService.signup frontend failed:', err)
@@ -42,17 +42,17 @@ async function logout() {
   }
 }
 
-function getLoggedInUser() {
+function getloggedinUser() {
   try {
     const sessionItem = sessionStorage.getItem(SESSION_STORAGE_KEY)
     return JSON.parse(sessionItem)
   } catch (err) {
-    console.error('authService.getLoggedInUser frontend failed:', err)
+    console.error('authService.getloggedinUser frontend failed:', err)
     throw err
   }
 }
 
-function _setLoggedInUser(user) {
+function _setloggedinUser(user) {
   const { _id, fullname, isAdmin } = user
   const userToSave = { _id, fullname, isAdmin }
 
@@ -60,7 +60,7 @@ function _setLoggedInUser(user) {
     sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(userToSave))
     return userToSave
   } catch (err) {
-    console.error('_setLoggedInUser frontend failed:', err)
+    console.error('_setloggedinUser frontend failed:', err)
     throw err
   }
 }

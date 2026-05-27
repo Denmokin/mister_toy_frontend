@@ -4,14 +4,14 @@ import { authService } from '../../service/auth.service.js'
 export const SET_USER = 'SET_USER'
 
 const initiateState = {
-    loggedInUser: authService.getLoggedInUser(),
+    loggedinUser: authService.getloggedinUser(),
 }
 
 export function userReducer(state = initiateState, action = {}) {
     switch (action.type) {
 
         case SET_USER:
-            return { ...state, loggedInUser: action.user }
+            return { ...state, loggedinUser: action.user }
 
         default:
             return state

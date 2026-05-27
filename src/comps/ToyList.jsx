@@ -1,6 +1,6 @@
 import { ToyPreview } from "./ToyPreview"
 
-export function ToyList({ toys, onEdit, onDetails, onRemove, loggedInUser }) {
+export function ToyList({ toys, onEdit, onDetails, onRemove, loggedinUser }) {
     return (
         <section className="toy-list">
             <ul>
@@ -13,7 +13,7 @@ export function ToyList({ toys, onEdit, onDetails, onRemove, loggedInUser }) {
                                 onClick={() => onDetails(toy._id)}>
                                 Details
                             </button>
-                            {isUserCreator(toy, loggedInUser) &&
+                            {loggedinUser?.isAdmin &&
                                 <div className="toy-preview__user-actions">
                                     <button
                                         className="toy-preview__button btn"
@@ -33,10 +33,4 @@ export function ToyList({ toys, onEdit, onDetails, onRemove, loggedInUser }) {
             </ul>
         </section>
     )
-}
-
-function isUserCreator(toy, loggedInUser) {
-    if (!loggedInUser) return false
-    if (loggedInUser.isAdmin) return true
-    return loggedInUser._id === toy.creator._id
 }

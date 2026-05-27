@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [react()],
 
   build: {
-    outDir: resolve(__dirname, '../mister_toy_backend/public'),
+    // outDir: resolve(__dirname, '../mister_toy_backend/public'),
+    outDir: resolve(__dirname, '../mister_toy_upgraded_backend/public'),
 
     emptyOutDir: true,
   }

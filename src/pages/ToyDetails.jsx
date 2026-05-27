@@ -7,7 +7,7 @@ export function ToyDetails() {
     const { toyId } = useParams()
     const [toy, setToy] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
-    const loggedInUser = useSelector(storeState => storeState.userModule.loggedInUser)
+    const loggedinUser = useSelector(storeState => storeState.userModule.loggedinUser)
 
     useEffect(() => {
         async function loadToy() {
@@ -44,7 +44,7 @@ export function ToyDetails() {
                 </p>
 
                 <div className="toy-details__actions">
-                    {loggedInUser && (
+                    {loggedinUser?.isAdmin && (
                         <Link to={`/toy/edit/${toy._id}`}>
                             <button className='toy-details__button btn save'>Edit</button>
                         </Link>
