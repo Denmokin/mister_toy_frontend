@@ -39,6 +39,7 @@
     border: none;
     font-size: 0.85rem;
     background: var(--color-primary);
+    color: var(--color-text);
 }
 
 .app-header__btn:hover {

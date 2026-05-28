@@ -15,6 +15,7 @@
 @import './comps/AuthForm.css';
 @import './comps/Modal.css';
 @import './comps/UserInfo.css';
+@import './comps/PaginationStrip.css';
 
 /*Pages*/
 @import './pages/ToyEdit.css';

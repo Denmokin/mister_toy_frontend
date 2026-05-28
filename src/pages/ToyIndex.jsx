@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loadToys, removeToy, setFilterBy } from "../store/actions/toy.actions.js"
 import { toyService } from "../service/toy.service.js"
 import { SET_FILTER_BY } from "../store/reducers/toy.reducer.js"
+import { PaginationStrip } from "../comps/PaginationStrip.jsx"
 
 export function ToyIndex() {
     const navigate = useNavigate()
@@ -29,9 +30,7 @@ export function ToyIndex() {
 
     function onChangePage(diff) {
         let nextPageIdx = filterBy.pageIdx + diff
-
         if (nextPageIdx < 0 || nextPageIdx >= totalPages) return
-
         setFilterBy({ pageIdx: nextPageIdx })
     }
 
@@ -76,33 +75,19 @@ export function ToyIndex() {
                 onClearFilter={onClearFilter}
             />
             {!isLoading
-                ? <>
-                    <ToyList
-                        toys={toys}
-                        onEdit={onEdit}
-                        onRemove={onRemove}
-                        onDetails={onDetails}
-                        loggedinUser={loggedinUser}
-                    />
-
-                    <div className="pagination">
-                        <button
-                            disabled={filterBy.pageIdx === 0}
-                            onClick={() => onChangePage(-1)}
-                        >
-                            Prev
-                        </button>
-                        <span>Page {filterBy.pageIdx + 1} of {totalPages}</span>
-                        <button
-                            disabled={filterBy.pageIdx >= totalPages - 1}
-                            onClick={() => onChangePage(1)}
-                        >
-                            Next
-                        </button>
-                    </div>
-                </>
+                ? <ToyList
+                    toys={toys}
+                    onEdit={onEdit}
+                    onRemove={onRemove}
+                    onDetails={onDetails}
+                    loggedinUser={loggedinUser}
+                />
                 : <div>Loading...</div>
             }
+            <PaginationStrip
+                filterBy={filterBy}
+                onChangePage={onChangePage}
+                totalPages={totalPages} />
         </main>
 
     )

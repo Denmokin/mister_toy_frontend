@@ -18,6 +18,7 @@ export function ToyFilter({ filterBy, setFilterBy, toyLabels, onClearFilter }) {
                 inStock: values.inStock ? true : '',
                 maxPrice: values.maxPrice || ''
             }
+            console.log('formattedValues: ', formattedValues)
             setFilterBy(formattedValues)
         })
         return () => subscription.unsubscribe()

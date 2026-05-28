@@ -1,0 +1,17 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+        &:disabled {
+            background-color: var(--color-text-muted);
+            color: var(--color-surface);
+        }
+    }
+}

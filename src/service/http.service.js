@@ -29,6 +29,9 @@ async function ajax(endpoint, method = 'GET', data = null) {
         method,
         data,
         params: method === 'GET' ? data : null,
+        paramsSerializer: {
+            indexes: null // serialize arrays as 'labels=Doll' instead of 'labels[]=Doll'
+        }
     }
 
     try {
