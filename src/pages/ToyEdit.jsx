@@ -40,7 +40,6 @@ export function ToyEdit() {
             try {
                 const toy = await toyService.getById(toyId)
                 reset(toy)
-                console.error('Error loading toy:', err)
             }
             finally {
                 setIsLoading(false)

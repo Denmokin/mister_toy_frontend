@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { toyService } from "../service/toy.service.js"
+import { CommentSection } from '../comps/CommentSection.jsx'
 
 export function ToyDetails() {
     const { toyId } = useParams()
@@ -55,6 +56,7 @@ export function ToyDetails() {
                     </Link>
                 </div>
             </div>
+            <CommentSection />
         </section>
     )
 }
